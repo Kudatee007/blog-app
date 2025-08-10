@@ -1,17 +1,23 @@
-import './App.css'
-import { Button, HStack } from "@chakra-ui/react"
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/layout/Layout";
+import Home from "./pages/HomePage";
+
 
 function App() {
-
-
   return (
     <>
-      <HStack>
-      <Button>Click me</Button>
-      <Button>Click me</Button>
-    </HStack>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          {/* <Route path="articles" element={<Articles />} />
+          <Route path="about" element={<About />} /> */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
