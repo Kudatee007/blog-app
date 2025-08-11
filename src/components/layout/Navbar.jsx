@@ -10,15 +10,17 @@ const Navbar = () => {
     setOpenMenu(!openMenu);
   }
   return (
-    <div className="px-6 py-4 bg-[#EFEFEF] h-[100vh]">
+    <div className="px-6 py-4 bg-[#EFEFEF] h-screen">
       <header>
         <nav className="relative flex justify-between md:px-28 w-full">
           {/* App title */}
           {/* <Link to="/" className="text-2xl font-bold"> */}
           <div className="flex justify-between items-center w-full text-2xl font-semibold">
-            <p className="text-[#1C1C1C]">
-              RISE<span className="text-[#7851E9]">BLOG</span>
-            </p>
+            <Link to="/">
+              <p className="text-[#1C1C1C]">
+                RISE<span className="text-[#7851E9]">BLOG</span>
+              </p>
+            </Link>
             <Menu onClick={handleMenu} className="block md:hidden" />
           </div>
           {/* </Link> */}
@@ -31,16 +33,16 @@ const Navbar = () => {
                 : "hidden md:flex md:gap-8"
             }
           >
-            {/* <Link to="/home"> */}
-            <li className="text-base font-medium text-[#1C1C1C] hover:text-[#7851E9]">
-              Home
-            </li>
-            {/* </Link> */}
-            {/* <Link to="/articles"> */}
-            <li className="text-base font-medium text-[#1C1C1C] hover:text-[#7851E9]">
-              Articles
-            </li>
-            {/* </Link> */}
+            <Link to="/">
+              <li className="text-base font-medium text-[#1C1C1C] hover:text-[#7851E9]">
+                Home
+              </li>
+            </Link>
+            <Link to="/articles">
+              <li className="text-base font-medium text-[#1C1C1C] hover:text-[#7851E9]">
+                Articles
+              </li>
+            </Link>
             {/* <Link to="about"> */}
             <li className="text-base font-medium text-[#1C1C1C] hover:text-[#7851E9]">
               About
