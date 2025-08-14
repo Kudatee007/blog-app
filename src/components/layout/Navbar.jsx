@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Search, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
-import smileyWoman from "../../assets/smiley-woman.svg";
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -10,7 +9,7 @@ const Navbar = () => {
     setOpenMenu(!openMenu);
   }
   return (
-    <div className="px-6 py-4 bg-[#EFEFEF] h-screen">
+    <div className="px-6 py-6 bg-[#EFEFEF]">
       <header>
         <nav className="relative flex justify-between md:px-28 w-full">
           {/* App title */}
@@ -29,54 +28,34 @@ const Navbar = () => {
           <ul
             className={
               openMenu
-                ? "flex flex-col justify-center items-center space-x-6 bg-white border border-[#5954EA] w-[250px] absolute right-4"
+                ? "flex flex-col justify-center items-center space-x-6 bg-white w-[250px] absolute right-6 top-8 space-y-4 p-10 rounded-lg shadow-lg border border-gray-200"
                 : "hidden md:flex md:gap-8"
             }
           >
             <Link to="/">
-              <li className="text-base font-medium text-[#1C1C1C] hover:text-[#7851E9]">
+              <li className="text-xl md:text-base font-medium text-[#1C1C1C] border-b-2 border-gray-300 hover:border-[#7851E9] pb-1 transition-colors duration-200 md:border-0">
                 Home
               </li>
             </Link>
-            <Link to="/articles">
-              <li className="text-base font-medium text-[#1C1C1C] hover:text-[#7851E9]">
-                Articles
+            <Link to="/posts">
+            <li className="text-xl md:text-base font-medium text-[#1C1C1C] border-b-2 border-gray-300 hover:border-[#7851E9] pb-1 transition-colors duration-200 md:border-0">
+
+                Posts
               </li>
             </Link>
             {/* <Link to="about"> */}
-            <li className="text-base font-medium text-[#1C1C1C] hover:text-[#7851E9]">
-              About
-            </li>
-            {/* </Link> */}
-            {/* <Link to="contact"> */}
-            <li className="text-base font-medium text-[#1C1C1C] hover:text-[#7851E9]">
-              Contact
-            </li>
-            {/* </Link> */}
+            <Link to="/post-editor">
+            <li className="text-xl md:text-base font-medium text-[#1C1C1C] border-b-2 border-gray-300 hover:border-[#7851E9] pb-1 transition-colors duration-200 md:border-0">
+
+                Write
+              </li>
+            </Link>
             <li>
               <Search className="hover:text-[#7851E9]" />
             </li>
           </ul>
         </nav>
       </header>
-
-      {/* hero section */}
-      <section className="flex flex-col items-center justify-center gap-2 md:flex-row md:gap-0 h-[90vh]">
-        <img
-          src={smileyWoman}
-          alt=""
-          className="w-full max-w-[400px] lg:max-w-[600px] object-contain"
-        />
-        <div className="text-right space-y-4">
-          <h1 className="text-[65px] xl:text-[105px] leading-none font-semibold text-[#1C1C1C]">
-            Write Your <br /> <span className="text-[#7851E9]">Article</span>
-            <br /> here
-          </h1>
-          <button className="bg-[#3652E1] w-[150px] md:w-[200px] py-3 text-[#EFEFEF] rounded-full font-meduim">
-            Write
-          </button>
-        </div>
-      </section>
     </div>
   );
 };

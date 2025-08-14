@@ -1,9 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const PostCard = ({ image, title, description, forceMobile = false }) => {
   return (
     <div className={`${forceMobile ? "max-w-[320px]" : "w-full"}`}>
-      <article className={`bg-white rounded-[10px] ${forceMobile ? "w-full rounded-[25px]" : "md:flex md:w-full md:p-6 md:rounded-[14px]"}`}>
+      <article
+        className={`bg-white rounded-[10px] ${forceMobile ? "w-full rounded-[25px]" : "md:flex md:w-full md:p-6 md:rounded-[14px]"}`}
+      >
         {image && (
           <div>
             <img
@@ -34,13 +37,14 @@ const PostCard = ({ image, title, description, forceMobile = false }) => {
           >
             {description}
           </p>
-          <button
-            className={`w-full text-[#EFEFEF] bg-[#3652E1] rounded-[25px] 
-              ${forceMobile ? "py-2 mt-4" : "py-2 mt-4 md:py-3 md:w-[200px]"}
+          <Link
+            to="/post-details"
+            className={`w-full text-center text-[#EFEFEF] bg-[#3652E1] rounded-[25px] 
+              ${forceMobile ? "py-2 px-4 mt-4" : "py-2 mt-4 md:py-3 md:w-[200px]"}
             `}
           >
             Read More
-          </button>
+          </Link>
         </div>
       </article>
     </div>

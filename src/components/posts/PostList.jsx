@@ -1,83 +1,45 @@
-// PostList.jsx
-import React, { useEffect } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import PostCard from "./PostCard";
-import postImage from "../../assets/postcard-image.svg";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-import { register } from "swiper/element/bundle";
-
-const posts = [
-  {
-    image: postImage,
-    title: "Elon Musk shows off updates to his brain chips",
-    description:
-      "Elon Musk’s health tech venture Neuralink shared updates to its brain...",
-  },
-  {
-    image: postImage,
-    title: "AI beats humans in medical diagnosis",
-    description:
-      "A breakthrough AI has surpassed human doctors in detecting early-stage...",
-  },
-  {
-    image: postImage,
-    title: "NASA reveals plans for Mars mission",
-    description:
-      "NASA has unveiled a timeline for its upcoming human mission to Mars...",
-  },
-  {
-    image: postImage,
-    title: "NASA reveals plans for Mars mission",
-    description:
-      "NASA has unveiled a timeline for its upcoming human mission to Mars...",
-  },
-  {
-    image: postImage,
-    title: "NASA reveals plans for Mars mission",
-    description:
-      "NASA has unveiled a timeline for its upcoming human mission to Mars...",
-  },
-];
+import React, { useState } from "react";
+import PostCard from "../../components/posts/PostCard";
+import { posts } from "../../utils/Posts";
 
 const PostList = () => {
-  useEffect(() => {
-    register(); // Register Swiper Web Components
+  const [query, setQuery] = useState("");
 
-    const swiperEl = document.querySelector("swiper-container");
-    swiperEl.breakpoints = {
-      320: { slidesPerView: 1.2, spaceBetween: 10 }, // mobile
-      640: { slidesPerView: 2.2, spaceBetween: 15 }, // tablet
-      1024: { slidesPerView: 3.5, spaceBetween: 20 }, // desktop
-    };
-  }, []);
+  // Filter posts based on search query
+  const filteredPosts = posts.filter((post) =>
+    post.title.toLowerCase().includes(query.toLowerCase())
+  );
   return (
-    <swiper-container
-      slides-per-view="3.5"
-      space-between="20"
-      grab-cursor="true"
-      effect="coverflow"
-      centered-slides="false"
-      pagination="true"
-      coverflow-effect-rotate="50"
-      coverflow-effect-stretch="0"
-      coverflow-effect-depth="100"
-      coverflow-effect-modifier="1"
-      coverflow-effect-slide-shadows="true"
-      style={{ paddingBottom: "10px" }}
-    >
-      {posts.map((post, index) => (
-        <swiper-slide key={index}>
-          <PostCard
-            forceMobile={true}
-            image={post.image}
-            title={post.title}
-            description={post.description}
+    <div className="bg-[#EFEFEF] min-h-screen">
+      <section className="p-6 md:px-20 md:py-8 lg:px-40 xl:px-60">
+        <div className="space-y-2 mb-4">
+          <h1 className="text-[35px] font-semibold text-[#8057F5] md:text-[45px]">
+            For you
+          </h1>
+          <input
+            type="text"
+            placeholder="Search article"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="py-3 px-4 bg-[#E8E8E8] rounded-[25px] w-[300px]"
           />
-        </swiper-slide>
-      ))}
-    </swiper-container>
+          <h2 className="text-[25px] font-semibold text-[#3652E1]">All</h2>
+        </div>
+        <div className="space-y-10">
+          {filteredPosts.map((post, index) => {
+            return (
+              <PostCard
+                forceMobile={false}
+                key={index}
+                image={post.image}
+                title={post.title}
+                description={post.description}
+              />
+            );
+          })}
+        </div>
+      </section>
+    </div>
   );
 };
 
