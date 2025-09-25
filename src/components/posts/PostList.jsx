@@ -6,9 +6,15 @@ const PostList = ({ posts = [] }) => {
   const [query, setQuery] = useState("");
 
   // Filter posts based on search query
+  // const filtered = useMemo(() => {
+  //   const q = query.toLowerCase();
+  //   return posts.filter((p) => (p?.title || "").toLowerCase().includes(q));
+  // }, [posts, query]);
+
   const filtered = useMemo(() => {
-    const q = query.toLowerCase();
-    return posts.filter((p) => (p?.title || "").toLowerCase().includes(q));
+    const q = query.trim().toLowerCase();
+    if (!q) return posts;
+    return posts.filter(p => (p?.title || "").toLowerCase().includes(q));
   }, [posts, query]);
   
   console.log(filtered);
@@ -29,11 +35,18 @@ const PostList = ({ posts = [] }) => {
           />
           <h2 className="text-[25px] font-semibold text-[#3652E1]">All</h2>
         </div>
-        <div className="space-y-10">
-          {filtered.map((post, i) => (
-            <PostCard key={post?.id ?? i} post={post} forceMobile={false} /> 
-          ))}
-        </div>
+        {filtered.length === 0 ? (
+          <p className="text-gray-500">No posts match “{query}”.</p>
+        ) : (
+          <div className="space-y-10">
+            {filtered.map((post) => (
+              <PostCard
+                key={post.slug || post.id}
+                post={post}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

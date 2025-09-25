@@ -20,7 +20,7 @@ export default function PostCard({ post, forceMobile = false }) {
         <div className={`p-6 pb-10 space-y-2 rounded-b-[25px] ${forceMobile ? "" : "md:p-6 md:flex md:flex-col md:justify-end"}`}>
           {title && <h3 className={`font-semibold leading-none text-[#1C1C1C] ${forceMobile ? "text-base" : "text-base md:text-[30px]"}`}>{title}</h3>}
           {description && <p className={`font-normal leading-tight text-[#424242] pb-6 ${forceMobile ? "text-sm" : "text-sm md:text-base"}`}>{description}</p>}
-          <Link to="/post-details" className={`block w-full py-3 px-8 text-center text-[#EFEFEF] bg-[#3652E1] rounded-[25px] ${forceMobile ? "py-2 px-4" : "py-2 md:py-3 md:w-[200px]"}`}>
+          <Link  to={`/posts/${post.slug || post.Slug}`} className={`block w-full py-3 px-8 text-center text-[#EFEFEF] bg-[#3652E1] rounded-[25px] ${forceMobile ? "py-2 px-4" : "py-2 md:py-3 md:w-[200px]"}`}>
             Read More
           </Link>
         </div>

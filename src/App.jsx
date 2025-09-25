@@ -21,7 +21,7 @@ export default function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="/posts" element={<PostsRoute />} />
-            <Route path="/post-details" element={<PostDetails />} />
+            <Route path="/posts/:slug" element={<PostDetails />} />
             <Route path="/post-editor" element={<PostEditorPage />} />
           </Route>
         </Routes>

@@ -8,30 +8,30 @@ const api = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-// Small helper to build params
-const buildParams = (q) => ({
-  populate: "coverImage", // return the media field
-  "sort[0]": "publishedAt:desc", // Strapi array sort syntax
-  ...(q && {
-    // case-insensitive contains on Title and Slug
-    "filters[$or][0][Title][$containsi]": q,
-    "filters[$or][1][Slug][$containsi]": q,
-  }),
-});
-
 export const postsAPI = {
-  // Get all
   getAll: async (searchQuery = "") => {
-    const res = await api.get("/blogs", { params: buildParams(searchQuery) });
+    const params = {
+      populate: "coverImage",
+      "sort[0]": "publishedAt:desc",
+      ...(searchQuery && { "filters[title][$contains]": searchQuery }), // your search endpoint
+    };
+    const res = await api.get("/blogs", { params });
     return res.data?.data ?? res.data;
   },
 
   // Get one
-  getById: async (id) => {
-    const res = await api.get(`/blogs/${id}`, {
+  getById: async (slug) => {
+    const res = await api.get(`/blogs/${encodeURIComponent(slug)}`, {
       params: { "populate[coverImage]": "*" },
     });
     return res.data?.data;
+  },
+
+  getBySlug: async (slug) => {
+    const res = await api.get(`/blogs/${encodeURIComponent(slug)}`, {
+      params: { populate: "coverImage" },
+    });
+    return res.data?.data ?? res.data;
   },
 
   // Create
