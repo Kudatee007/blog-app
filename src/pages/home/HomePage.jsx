@@ -1,10 +1,15 @@
 import React from "react";
 import PostCard from "../../components/posts/PostCard";
-import PostList from "../../components/posts/PostLister";
 import smileyWoman from "../../assets/smiley-woman.svg";
 import { Link } from "react-router-dom";
+// import { postsAPI } from "../../services/Api";
+import PostList from "../../components/posts/PostList";
+import { usePosts } from "../../context/PostContext";
+
 
 const HomePage = () => {
+  const { posts, loading } = usePosts(); 
+
   return (
     <div className="bg-[#EFEFEF]">
       {/* hero section */}
@@ -40,7 +45,7 @@ const HomePage = () => {
 
         {/* Second Column - 60% */}
         <div className="basis-3/5 bg-white rounded-lg p-4 overflow-hidden hidde">
-          <PostList />
+        {!loading && <PostList posts={posts} />}
         </div>
       </section>
       <section className="h-[90vh] bg-[#EFEFEF] flex justify-center items-center bg-[url('/subsribe-bg.svg')] bg-cover bg-center">

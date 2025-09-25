@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "blog_apps",
+  "info": {
+    "singularName": "blog-app",
+    "pluralName": "blog-apps",
+    "displayName": "blog-app"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Slug": {
+      "type": "uid",
+      "targetField": "Title"
+    },
+    "Content": {
+      "type": "blocks"
+    },
+    "postStatus": {
+      "type": "enumeration",
+      "enum": [
+        "Draft",
+        "Published"
+      ]
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  }
+}

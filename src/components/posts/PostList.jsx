@@ -1,14 +1,18 @@
-import React, { useState } from "react";
-import PostCard from "../../components/posts/PostCard";
-import { posts } from "../../utils/Posts";
+import React, { useState, useMemo } from "react";
+import PostCard from "./PostCard";
 
-const PostList = () => {
+const PostList = ({ posts = [] }) => {
+  // Add default empty array
   const [query, setQuery] = useState("");
 
   // Filter posts based on search query
-  const filteredPosts = posts.filter((post) =>
-    post.title.toLowerCase().includes(query.toLowerCase())
-  );
+  const filtered = useMemo(() => {
+    const q = query.toLowerCase();
+    return posts.filter((p) => (p?.title || "").toLowerCase().includes(q));
+  }, [posts, query]);
+  
+  console.log(filtered);
+
   return (
     <div className="bg-[#EFEFEF] min-h-screen">
       <section className="p-6 md:px-20 md:py-8 lg:px-40 xl:px-60">
@@ -26,17 +30,9 @@ const PostList = () => {
           <h2 className="text-[25px] font-semibold text-[#3652E1]">All</h2>
         </div>
         <div className="space-y-10">
-          {filteredPosts.map((post, index) => {
-            return (
-              <PostCard
-                forceMobile={false}
-                key={index}
-                image={post.image}
-                title={post.title}
-                description={post.description}
-              />
-            );
-          })}
+          {filtered.map((post, i) => (
+            <PostCard key={post?.id ?? i} post={post} forceMobile={false} /> 
+          ))}
         </div>
       </section>
     </div>

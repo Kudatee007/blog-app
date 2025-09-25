@@ -15,19 +15,19 @@ export const posts = [
   },
   {
     image: postImage,
-    title: "NASA reveals plans for Mars mission",
+    title: "NASA reveals plans for Mars mission1",
     description:
       "NASA has unveiled a timeline for its upcoming human mission to Mars...",
   },
   {
     image: postImage,
-    title: "NASA reveals plans for Mars mission",
+    title: "NASA reveals plans for Mars mission2",
     description:
       "NASA has unveiled a timeline for its upcoming human mission to Mars...",
   },
   {
     image: postImage,
-    title: "NASA reveals plans for Mars mission",
+    title: "NASA reveals plans for Mars mission3",
     description:
       "NASA has unveiled a timeline for its upcoming human mission to Mars...",
   },
