@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Search, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
+import SearchPosts from "../posts/SearchPosts";
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -11,7 +12,7 @@ const Navbar = () => {
   return (
     <div className="px-6 py-6 bg-[#EFEFEF]">
       <header>
-        <nav className="relative flex justify-between md:px-28 w-full">
+        <nav className="relative flex justify-between items-center md:px-20 w-full">
           <div className="flex justify-between items-center w-full text-2xl font-semibold">
             <Link to="/">
               <p className="text-[#1C1C1C]">
@@ -24,7 +25,7 @@ const Navbar = () => {
             className={
               openMenu
                 ? "flex flex-col justify-center items-center space-x-6 bg-white w-[300px] absolute right-6 top-8 space-y-4 p-10 rounded-lg shadow-lg border border-gray-200"
-                : "hidden md:flex md:gap-8"
+                : "hidden md:flex md:gap-8 md:items-center"
             }
           >
             {/* Home */}
@@ -49,7 +50,7 @@ const Navbar = () => {
             </Link>
             {/* Search */}
             <li>
-              <Search className="hover:text-[#7851E9]" />
+             <SearchPosts />
             </li>
           </ul>
         </nav>

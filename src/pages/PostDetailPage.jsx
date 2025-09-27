@@ -52,8 +52,6 @@ const PostDetailPage = () => {
       await postsAPI.delete(post.id);
       console.log("[PostDetail] server delete OK");
       dispatch({ type: ACTIONS.DELETE, payload: post.id });
-      const fresh = await postsAPI.getAll();
-      dispatch({ type: ACTIONS.FETCH_SUCCESS, payload: fresh });
       navigate("/posts");
     } catch (e) {
       console.error("Delete failed:", e);
