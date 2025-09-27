@@ -8,8 +8,7 @@ import "swiper/css/pagination";
 import { register } from "swiper/element/bundle";
 import { posts } from "../../utils/Posts";
 
-
-const PostList = () => {
+const PostLister = () => {
   useEffect(() => {
     register(); // Register Swiper Web Components
 
@@ -21,32 +20,34 @@ const PostList = () => {
     };
   }, []);
   return (
-    <swiper-container
-      slides-per-view="3.5"
-      space-between="20"
-      grab-cursor="true"
-      effect="coverflow"
-      centered-slides="false"
-      pagination="true"
-      coverflow-effect-rotate="50"
-      coverflow-effect-stretch="0"
-      coverflow-effect-depth="100"
-      coverflow-effect-modifier="1"
-      coverflow-effect-slide-shadows="true"
-      style={{ paddingBottom: "10px" }}
-    >
-      {posts.map((post, index) => (
-        <swiper-slide key={index}>
-          <PostCard
-            forceMobile={true}
-            image={post.image}
-            title={post.title}
-            description={post.description}
-          />
-        </swiper-slide>
-      ))}
-    </swiper-container>
+    <div className="">
+      <swiper-container
+        slides-per-view="3.5"
+        space-between="20"
+        grab-cursor="true"
+        effect="coverflow"
+        centered-slides="false"
+        pagination="true"
+        coverflow-effect-rotate="50"
+        coverflow-effect-stretch="0"
+        coverflow-effect-depth="100"
+        coverflow-effect-modifier="1"
+        coverflow-effect-slide-shadows="true"
+        style={{ paddingBottom: "10px" }}
+      >
+        {posts.map((post, index) => (
+          <swiper-slide key={index}>
+            <PostCard
+              forceMobile={true}
+              image={post.image}
+              title={post.title}
+              description={post.description}
+            />
+          </swiper-slide>
+        ))}
+      </swiper-container>
+    </div>
   );
 };
 
-export default PostList;
+export default PostLister;

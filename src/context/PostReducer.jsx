@@ -26,7 +26,6 @@ const getCoverUrl = (ci) => {
   if (!ci) return "";
   // plain string
   if (isString(ci)) return ci;
-  // common Strapi shapes
   if (isString(ci?.url)) return ci.url; // { url }
   if (isString(ci?.data?.attributes?.url)) return ci.data.attributes.url;
   if (Array.isArray(ci)) {
@@ -44,38 +43,36 @@ const getCoverUrl = (ci) => {
   return "";
 };
 
+// Flatten either a Strapi entity ({ id, attributes }) or an already-flat object
+const flattenEntity = (raw) => {
+  if (!raw) return { id: undefined, attrs: {} };
+  if (raw.attributes) return { id: raw.id, attrs: raw.attributes };
+  // already flat
+  return { id: raw.id, attrs: raw };
+};
+
 // Normalize API’s PascalCase + blocks to UI-friendly camelCase
-const toUI = (p) => {
-  const preview = Array.isArray(p?.Content)
-    ? p.Content.map(
-        (b) =>
-          b?.text ??
-          (Array.isArray(b?.children)
-            ? b.children
-                .map((c) => c?.text)
-                .filter(Boolean)
-                .join(" ")
-            : "")
-      )
-        .filter(Boolean)
-        .join(" ")
-        .slice(0, 180)
-    : "";
+const toUI = (raw) => {
+  const { id: numericId, attrs } = flattenEntity(raw);
 
+  const cover = attrs.coverImage ?? raw.coverImage ?? raw.image;
+  const url = getCoverUrl(cover) || (isString(raw?.image) ? raw.image : "");
 
-  const url = getCoverUrl(p?.coverImage) || (isString(p?.image) ? p.image : "");
   return {
-    id: p.id ?? p.documentId,
-    documentId: p.documentId,
-    title: p.Title ?? p.title ?? "",
-    slug: p.Slug ?? p.slug ?? "",
-    description: p.description ?? preview,
+    id: typeof numericId === "number" ? numericId : undefined,
+
+    documentId: attrs.documentId ?? raw.documentId,
+
+    title: attrs.Title ?? attrs.title ?? raw.Title ?? raw.title ?? "",
+    slug: attrs.Slug ?? attrs.slug ?? raw.Slug ?? raw.slug ?? "",
+    content: attrs.Content ?? attrs.content ?? raw.Content ?? raw.content ?? "",
     image: withBase(url),
-    status: p.statusBlog ?? p.status,
-    content: p.Content,
-    createdAt: p.createdAt,
-    updatedAt: p.updatedAt,
-    publishedAt: p.publishedAt,
+
+    status: attrs.statusBlog ?? attrs.status ?? raw.statusBlog ?? raw.status,
+
+    createdAt: attrs.createdAt ?? raw.createdAt,
+    updatedAt: attrs.updatedAt ?? raw.updatedAt,
+    publishedAt: attrs.publishedAt ?? raw.publishedAt,
   };
 };
 

@@ -23,6 +23,7 @@ export default function App() {
             <Route path="/posts" element={<PostsRoute />} />
             <Route path="/posts/:slug" element={<PostDetails />} />
             <Route path="/post-editor" element={<PostEditorPage />} />
+            <Route path="/posts/:id/edit" element={<PostEditorPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

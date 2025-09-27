@@ -1,23 +1,22 @@
 import React, { useState, useMemo } from "react";
 import PostCard from "./PostCard";
 
-const PostList = ({ posts = [] }) => {
-  // Add default empty array
+const PostList = ({ posts = [], onPostDelete, loading = false }) => {
   const [query, setQuery] = useState("");
-
-  // Filter posts based on search query
-  // const filtered = useMemo(() => {
-  //   const q = query.toLowerCase();
-  //   return posts.filter((p) => (p?.title || "").toLowerCase().includes(q));
-  // }, [posts, query]);
-
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return posts;
-    return posts.filter(p => (p?.title || "").toLowerCase().includes(q));
+    return posts.filter((p) =>
+      (p?.title || "").toLowerCase().includes(q)
+      || (p?.description || "").toLowerCase().includes(q)
+    );
   }, [posts, query]);
-  
+
   console.log(filtered);
+  
+  if (loading) return <div className="p-4">Loading…</div>;
+  if (!filtered.length)
+    return <div className="p-4 text-center text-gray-500">No posts found.</div>;
 
   return (
     <div className="bg-[#EFEFEF] min-h-screen">
@@ -43,6 +42,7 @@ const PostList = ({ posts = [] }) => {
               <PostCard
                 key={post.slug || post.id}
                 post={post}
+                onDelete={onPostDelete}
               />
             ))}
           </div>

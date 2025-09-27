@@ -2,13 +2,11 @@ import React from "react";
 import PostCard from "../../components/posts/PostCard";
 import smileyWoman from "../../assets/smiley-woman.svg";
 import { Link } from "react-router-dom";
-// import { postsAPI } from "../../services/Api";
-import PostList from "../../components/posts/PostList";
-import { usePosts } from "../../context/PostContext";
-
+import PostLister from "../../components/posts/PostLister";
+// import { usePosts } from "../../context/PostContext";
 
 const HomePage = () => {
-  const { posts, loading } = usePosts(); 
+  // const { posts, loading } = usePosts();
 
   return (
     <div className="bg-[#EFEFEF]">
@@ -17,7 +15,7 @@ const HomePage = () => {
         <img
           src={smileyWoman}
           alt=""
-          className="w-full max-w-[400px] lg:max-w-[600px] object-contain"
+          className="w-full max-w-[400px] h-auto lg:max-w-[600px] object-contain"
         />
         <div className="text-right space-y-4">
           <h1 className="text-[65px] xl:text-[105px] leading-none font-semibold text-[#1C1C1C]">
@@ -32,20 +30,14 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className="flex flex-col lg:flex-row items-center gap-6 bg-[url('/Circlesbackground.svg')] bg-cover bg-center h-[100vh] w-full">
-        {/* First Column - 40% */}
-        <div className="basis-2/5 flex flex-col justify-center items-center text-center py-6">
-          <h2 className="text-[65px] xl:text-[95px] leading-tight font-meduim text-[#1C1C1C] w-[5ch]">
+      <section className="flex flex-col justify-center items-center bg-[url('/Circlesbackground.svg')] bg-cover bg-center h-[100vh] w-full">
+        <div className="flex flex-col items-center justify-center space-y-6">
+          <h2 className="text-[65px] xl:text-[95px] leading-tight font-meduim text-[#1C1C1C]">
             Best <span className="text-[#EFEFEF]">Article</span> Today
           </h2>
           <button className="mt-4 px-8 py-4 bg-[#EFEFEF] text-[#7851E9] rounded-full">
             See All Articles
           </button>
-        </div>
-
-        {/* Second Column - 60% */}
-        <div className="basis-3/5 bg-white rounded-lg p-4 overflow-hidden hidde">
-        {!loading && <PostList posts={posts} />}
         </div>
       </section>
       <section className="h-[90vh] bg-[#EFEFEF] flex justify-center items-center bg-[url('/subsribe-bg.svg')] bg-cover bg-center">
@@ -54,8 +46,7 @@ const HomePage = () => {
             Subscribe
           </h4>
           <p className="text-base text-[#2B2C34]">
-            Subscribe to our newsletter and get upto 40% off on our exclusive
-            service.
+            Subscribe to my newsletter
           </p>
           <div className="w-full flex pt-8">
             <input

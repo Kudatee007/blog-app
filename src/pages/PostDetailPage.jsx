@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import neral from "../assets/Rectangle91.svg";
+import { useNavigate, useParams } from "react-router-dom";
 import DeleteButton from "../components/common/DeleteButton";
 import { usePosts } from "../context/PostContext";
 import { postsAPI } from "../services/Api";
@@ -8,54 +7,75 @@ import { ACTIONS } from "../context/PostReducer";
 
 const PostDetailPage = () => {
   const { slug } = useParams();
-  const { state, dispatch } = usePosts();
+  const navigate = useNavigate();
 
+  const { state, dispatch } = usePosts();
   const post = state.posts.find((p) => p.slug === slug);
 
   useEffect(() => {
-    // If not in cache, fetch just this one
-    if (!post) {
+    if (!post && slug) {
       (async () => {
-        const raw = await postsAPI.getBySlug(slug); // GET /posts/:slug
-        if (raw) dispatch({ type: ACTIONS.UPSERT, payload: raw }); // reducer calls toUI()
+        const entity = await postsAPI.getBySlug(slug); // GET by slug
+        if (!entity) return;
+        const attrs = entity.attributes || {};
+        const ui = {
+          id: entity.id,
+          slug: attrs.Slug || attrs.slug || "",
+          title: attrs.Title || attrs.title || "",
+          // description: attrs.Content || "",
+          content: attrs.Content || "",
+          image:
+            attrs.coverUrl ||
+            attrs.coverImage?.data?.attributes?.url ||
+            attrs.coverImage?.url ||
+            "",
+          publishedAt: attrs.publishedAt || attrs.createdAt || "",
+          statusBlog: attrs.statusBlog || attrs.status || "Draft",
+        };
+
+        dispatch({ type: ACTIONS.UPSERT, payload: ui });
       })();
     }
   }, [slug, post, dispatch]);
 
-  if (!post) return <section className="p-6">Loading…</section>;
+  if (!post) return <section className="flex flex-col justify-center items-center min-h-screen">Loading…</section>;
+
+  // navigate to edit page
+  const handleEdit = () => {
+    navigate(`/posts/${post.id}/edit`);
+  };
+
+  // delete post handler
+  const handleDelete = async () => {
+    try {
+      console.log("[PostDetail] handleDelete start", { id: post.id });
+      await postsAPI.delete(post.id);
+      console.log("[PostDetail] server delete OK");
+      dispatch({ type: ACTIONS.DELETE, payload: post.id });
+      const fresh = await postsAPI.getAll();
+      dispatch({ type: ACTIONS.FETCH_SUCCESS, payload: fresh });
+      navigate("/posts");
+    } catch (e) {
+      console.error("Delete failed:", e);
+      alert("Could not delete the post.");
+    }
+  };
 
   return (
-    // <section className="p-6 md:px-20 md:py-12 lg:px-40 xl:px-60 mb-12">
-    //   <h1 className="text-[#1C1C1C] text-[22px] font-semibold leading-tight md:text-[30px]">
-    //     Elon Musk shows off updates to his brain chips and says he’s going to
-    //     install one in himself when they are ready
-    //   </h1>
-    //   <div className="pt-6 pb-8">
-    //     <span className="text-[#8E8E8E] text-sm">
-    //       PUBLISHED THU, DEC 1 20228:09 AM
-    //     </span>
-    //     <img src={neral} alt="" className="w-full h-auto" />
-    //   </div>
-    //   <p className="text-base text-[#1C1C1C] font-normal md:text-[18px]">
-    //     gsgsg
-    //   </p>
-
-    //   <div className="mt-6 flex justify-end">
-    //     <DeleteButton />
-    //   </div>
-    // </section>
-    <article className="max-w-3xl mx-auto p-6 bg-white rounded-lg">
+    <section className="max-w-3xl mx-auto py-16 px-6 bg-white rounded-lg h-100vh">
       {post.image && (
         <img
           src={post.image}
           alt={post.title}
-          className="w-full rounded mb-6"
+          className="w-full rounded mb-6 h-[500px]"
         />
       )}
-      <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-      <span className="text-[#8E8E8E] text-sm">
-        PUBLISHED {post.publishedAt}
+
+      <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
+      <span className="text-[#8E8E8E] text-sm block mb-6">
+        {post.publishedAt ? `PUBLISHED ${post.publishedAt}` : post.statusBlog}
       </span>
+
       {Array.isArray(post.content) ? (
         post.content.map((b, i) => (
           <p key={i} className="mb-3">
@@ -66,9 +86,19 @@ const PostDetailPage = () => {
           </p>
         ))
       ) : (
-        <p>{post.description}</p>
+        <p className="mb-3">{post.content}</p>
       )}
-    </article>
+
+      <div className="mt-6 flex justify-between">
+        <button
+          onClick={handleEdit}
+          className="py-2 px-8 text-black border-none rounded bg-[#EFEFEF] text-lg font-sm"
+        >
+          Edit
+        </button>
+        <DeleteButton onConfirm={handleDelete} />
+      </div>
+    </section>
   );
 };
 
